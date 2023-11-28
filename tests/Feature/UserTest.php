@@ -105,7 +105,7 @@ class UserTest extends TestCase
         ])->assertStatus(401)->assertJson([
             'errors' => [
                 'message' => [
-                    'username or password is incorrect'
+                    'email or password is incorrect'
                 ]
             ]
         ]);
@@ -120,7 +120,7 @@ class UserTest extends TestCase
         ])->assertStatus(401)->assertJson([
             'errors' => [
                 'message' => [
-                    'username or password is incorrect'
+                    'email or password is incorrect'
                 ]
             ]
         ]);
@@ -128,7 +128,7 @@ class UserTest extends TestCase
     public function testGetUser(): void
     {
     //    i want use authorization with token
-          $this->testRegisterSuccess();
+        $this->testRegisterSuccess();
         $this->post('api/users/login',[
             'email' => 'daniel.aryass7@gmail.com',
             'password' => '12345678'
@@ -192,5 +192,34 @@ class UserTest extends TestCase
             ]);
     }
 
+    public function testAddUserNotByAdmin(): void
+    {
+        $this->testRegisterSuccess();
+        $this->post('api/users/login',[
+            'email' => 'daniel.aryass7@gmail.com',
+            'password' => '12345678'
+        ])->assertStatus(200)->assertJson([
+            'data' => [
+                'name' => 'Daniel',
+                'email' => 'daniel.aryass7@gmail.com'
+            ],
+        ]);
+        $user = User::where('email', 'daniel.aryass7@gmail.com')->first();
+        // get token from personal_access_tokens
+        $token = $user->createToken('auth_token')->plainTextToken;
+         $this->post('api/adduser', [
+            'Authorization' => 'Bearer ' . $token,
+            'email' => 'admin22@gmail.com',
+            'name' => 'admin',
+            'password' => '12345678',
+            'role' => 'Super Admin'
+            ])->assertStatus(403)->assertJson([
+                'errors' => [
+                'message' => [
+                    'You dont have permission to this action'
+                ]
+            ]
+            ]);
+    }
 
 }

@@ -9,11 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 // has roles
 use Spatie\Permission\Traits\HasRoles;
-
+// has permissions
+use Spatie\Permission\Traits\HasPermissions;
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    use HasRoles;
+    use HasApiTokens;
+    use HasFactory;
+    use HasRoles, HasPermissions;
 
      public function guardName()
     {
