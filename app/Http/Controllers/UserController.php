@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
+// User update
+use App\Http\Requests\UserUpdateRequest;
 
 
 
@@ -98,7 +100,7 @@ class UserController extends Controller
 
     // }
    public function addUser(Request $request): JsonResponse
-{   
+    {   
     //  abort_if(Gate::denies('Super Admin'), Response::HTTP_FORBIDDEN, response()->json(['error' => 'Forbidden']));
 
 
@@ -128,5 +130,24 @@ class UserController extends Controller
     $newUser->save();
     $newUser->assignRole($data['role']);
     return (new UserResource($newUser))->response()->setStatusCode(201);
-}
+    }
+
+   public function update(UserUpdateRequest $request): UserResource
+   {
+       $data = $request->validated();
+        $user = Auth::user();
+
+        if (isset($data['name'])) {
+            $user->name = $data['name'];
+        }
+
+        if (isset($data['password'])) {
+            $user->password = Hash::make($data['password']);
+        }
+
+        $user->save();
+        return new UserResource($user);
+   }
+
+
 }

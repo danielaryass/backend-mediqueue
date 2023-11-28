@@ -222,4 +222,58 @@ class UserTest extends TestCase
             ]);
     }
 
+    public function testUpdateUserName(): void
+    {
+         $this->testRegisterSuccess();
+        $this->post('api/users/login',[
+            'email' => 'daniel.aryass7@gmail.com',
+            'password' => '12345678'
+        ])->assertStatus(200)->assertJson([
+            'data' => [
+                'name' => 'Daniel',
+                'email' => 'daniel.aryass7@gmail.com'
+            ],
+        ]);
+        $user = User::where('email', 'daniel.aryass7@gmail.com')->first();
+        // get token from personal_access_tokens
+        $token = $user->createToken('auth_token')->plainTextToken;
+        $this->patch('api/users', [
+            'Authorization' => 'Bearer ' . $token,
+            'name' => 'Daniel Aryas',
+        ])->assertStatus(200)->assertJson([
+            'data' => [
+                'name' => 'Daniel Aryas',
+                'email' => 'daniel.aryass7@gmail.com'
+            ],
+        ]);
+    }
+
+      public function testUpdateUserPassword(): void
+    {
+         $this->testRegisterSuccess();
+        $this->post('api/users/login',[
+            'email' => 'daniel.aryass7@gmail.com',
+            'password' => '12345678'
+        ])->assertStatus(200)->assertJson([
+            'data' => [
+                'name' => 'Daniel',
+                'email' => 'daniel.aryass7@gmail.com'
+            ],
+        ]);
+        $user = User::where('email', 'daniel.aryass7@gmail.com')->first();
+        // get token from personal_access_tokens
+        $token = $user->createToken('auth_token')->plainTextToken;
+        $this->patch('api/users', [
+            'Authorization' => 'Bearer ' . $token,
+            'password' => '1234567890',
+        ])->assertStatus(200)->assertJson([
+            'data' => [
+                'name' => 'Daniel',
+                'email' => 'daniel.aryass7@gmail.com'
+            ],
+        ]);
+    }
+
+
+
 }

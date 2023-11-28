@@ -32,4 +32,5 @@ Route::get('/unauthorized', function(){
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users', [UserController::class, 'get']);
     Route::post('/adduser', [UserController::class, 'addUser']);
+    Route::patch('/users', [UserController::class, 'update']);
 });
