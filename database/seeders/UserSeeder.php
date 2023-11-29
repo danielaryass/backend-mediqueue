@@ -21,7 +21,6 @@ class UserSeeder extends Seeder
                 'name'           => 'Super Admin',
                 'email'          => 'admin@mail.com',
                 'password'       => Hash::make('123456789'),
-                'remember_token' => null,
                 'created_at'     => date('Y-m-d H:i:s'),
                 'updated_at'     => date('Y-m-d H:i:s'),
             ],
@@ -32,5 +31,17 @@ class UserSeeder extends Seeder
         $user = User::where('email', 'admin@mail.com')->first();
         // get role super admin
         $user->assignRole('Super Admin');
+
+        $doctor = [
+            'name' => 'Daniel',
+            'email' => 'daniel.aryass7@gmail.com',
+            'password' => Hash::make('12345678'),
+            'created_at'     => date('Y-m-d H:i:s'),
+            'updated_at'     => date('Y-m-d H:i:s'),
+        ];
+        User::insert($doctor);
+        $doctor = User::where('email', 'daniel.aryass7@gmail.com')->first();
+        $doctor->assignRole('Doctor');
+        
     }
 }

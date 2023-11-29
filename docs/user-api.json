@@ -52,8 +52,10 @@
                                             "data": {
                                                 "id": 1,
                                                 "name": "johndoe",
-                                                "email": "johndoe@gmail.com"
-                                            }
+                                                "email": "johndoe@gmail.com",
+                                                "role" : "user"
+                                            },
+                                            "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"
                                         }
                                     }
                                 },
@@ -73,6 +75,9 @@
                                                     "type": "string"
                                                 }
                                             }
+                                        },
+                                        "token": {
+                                            "type": "string"
                                         },
                                         "errors": {
                                             "type": "object"

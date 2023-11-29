@@ -21,9 +21,6 @@ class UserResource extends JsonResource
         'name' => $this->name,
         'email' => $this->email,
         'role' => $this->roles->pluck('name')->first(),
-        'token' => $this->whenPivotLoaded('personal_access_tokens', function () {
-            return $this->pivot->token;
-        })
        ];
     }
 }

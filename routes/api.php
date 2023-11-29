@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DoctorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users', [UserController::class, 'get']);
     Route::post('/adduser', [UserController::class, 'addUser']);
     Route::patch('/users', [UserController::class, 'update']);
+    Route::post('/users/logout', [UserController::class, 'logout']);
+    Route::delete('/users/{id}', [UserController::class, 'delete']);
+    Route::post('/doctors', [DoctorController::class, 'addDoctor']);
+    Route::get('/doctors', [DoctorController::class, 'index']);
+    Route::get('/doctors/{id}', [DoctorController::class, 'getDetailDoctor']);
+    Route::patch('/doctors/{id}', [DoctorController::class, 'editDoctor']);
 });
