@@ -8,11 +8,38 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 
 class DoctorController extends Controller
 {
+    private function checkUserAuthorization()
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'unauthorized',
+                    ],
+                ],
+            ], 401);
+        }
+        if (Gate::denies('Akses Admin')) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'You dont have permission to this action',
+                    ],
+                ],
+            ], 403);
+        }
+        return $user;
+    }
     public function index()
     {
+
         $doctor = Doctor::all();
         return response()->json([
             'success' => true,
@@ -21,8 +48,23 @@ class DoctorController extends Controller
         ], 200);
     }
 
+    public function getUserWithRoleDoctor()
+    {
+        $user = User::role('Doctor')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'List All User With Role Doctor',
+            'data' => $user,
+        ], 200);
+    }
+
     public function addDoctor(DoctorRequest $request)
     {
+        $user = $this->checkUserAuthorization();
+        if (!$user) {
+            return $user;
+        }
+
         $request->validated();
 
         // Membuat objek Doctor
@@ -66,7 +108,10 @@ class DoctorController extends Controller
 
     public function editDoctor(Request $request, $id)
     {
-        // Mencari Doctor berdasarkan id
+        $user = $this->checkUserAuthorization();
+        if (!$user) {
+            return $user;
+        }
         // $doctor = Doctor::findOrFail($id);
         $doctor = Doctor::where('id', $id)->first();
         if (!$doctor) {
@@ -105,7 +150,6 @@ class DoctorController extends Controller
 
     public function getDetailDoctor($id)
     {
-        // Mencari Doctor berdasarkan id
         $doctor = Doctor::findOrFail($id);
 
         // Mengembalikan response JSON

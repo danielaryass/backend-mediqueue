@@ -115,5 +115,16 @@ class DoctorTest extends TestCase
             'data' => '',
         ]);
     }
+
+    public function testGetDoctorsWithRoles(): void
+    {
+        $token = $this->login();
+        $this->get('/api/doctors/user', [
+            'Authorization' => 'Bearer ' . $token,
+        ])->assertStatus(200)->assertJson([
+            'success' => true,
+            'message' => 'List All User With Role Doctor',
+        ]);
+    }
     
 }

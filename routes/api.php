@@ -26,6 +26,7 @@ Route::get('/unauthorized', function(){
                     ]
     ]], 401);
 })->name('unauthorized');
+Route::get('/doctors', [DoctorController::class, 'index']);
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
@@ -37,7 +38,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/users/logout', [UserController::class, 'logout']);
     Route::delete('/users/{id}', [UserController::class, 'delete']);
     Route::post('/doctors', [DoctorController::class, 'addDoctor']);
-    Route::get('/doctors', [DoctorController::class, 'index']);
-    Route::get('/doctors/{id}', [DoctorController::class, 'getDetailDoctor']);
+    Route::get('/doctors/user', [DoctorController::class, 'getUserWithRoleDoctor']);
     Route::patch('/doctors/{id}', [DoctorController::class, 'editDoctor']);
+    Route::get('/doctors/{id}', [DoctorController::class, 'getDetailDoctor']);
 });
