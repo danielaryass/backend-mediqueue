@@ -1,12 +1,69 @@
 {
-    "openapi":"3.0.2",
-    "info": {
-      "title":"API Title",
-      "version":"1.0"
-    },
-    "servers": [
-      {"url":"https://api.server.test/doctors"}
-    ],
-    "paths": {
+  "openapi":"3.0.2",
+  "info": {
+    "title":"API Title",
+    "version":"1.0"
+  },
+  "servers": [
+    {"url":"http://localhost:8000"}
+  ],
+  "paths": {
+    "/api/doctors" : {
+      "get": {
+        "summary": "Get all doctors",
+        "description": "Get all doctors",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                      "data": {
+                          "type": "array",
+                          "items": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                      "type": "integer"
+                                  },
+                                  "name": {
+                                      "type": "string"
+                                  },
+                                  "start_hour": {
+                                      "type": "string"
+                                  },
+                                  "end_hour": {
+                                      "type": "string"
+                                  },
+                                  "image_url": {
+                                      "type": "string"
+                                  },
+                                  "user_id": {
+                                      "type": "integer"
+                                  }
+
+                              }
+                          }
+                      },
+                      "success": {
+                          "type": "boolean"
+                      },
+                      "message": {
+                          "type": "string"
+                      }
+                  }
+              
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        
+      }
     }
   }
+}

@@ -9,6 +9,7 @@ use App\Models\User;
 use Database\Seeders\UserSeeder;
 use App\Models\Doctor;
 
+
 class DoctorTest extends TestCase
 {
     private function login(): string
@@ -97,4 +98,22 @@ class DoctorTest extends TestCase
             ],
         ]);
     }
+
+    public function testUpdateDoctorFailed(): void 
+    {
+        $token = $this->login();
+        $doctor = $this->createDoctor($token);
+        $this->patch('api/doctors/100', [
+            'Authorization' => 'Bearer ' . $token,
+            'name' => 'Daniel Arya',
+            'user_id' => $doctor->user_id,
+            'start_hour' => '08:00',
+            'end_hour' => '16:00',
+        ])->assertStatus(404)->assertJson([
+            'success' => false,
+            'message' => 'Doctor not found',
+            'data' => '',
+        ]);
+    }
+    
 }

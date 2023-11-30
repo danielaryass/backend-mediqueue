@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\DoctorRequest;
 use App\Models\Doctor;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\DoctorRequest;
-
 
 class DoctorController extends Controller
 {
@@ -26,6 +26,13 @@ class DoctorController extends Controller
         $request->validated();
 
         // Membuat objek Doctor
+        if (User::where('id', $request->user_id)->doesntExist()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found',
+                'data' => '',
+            ], 404);
+        }
         $doctor = new Doctor;
         $doctor->name = $request->name;
         $doctor->user_id = $request->user_id;
@@ -60,7 +67,15 @@ class DoctorController extends Controller
     public function editDoctor(Request $request, $id)
     {
         // Mencari Doctor berdasarkan id
-        $doctor = Doctor::findOrFail($id);
+        // $doctor = Doctor::findOrFail($id);
+        $doctor = Doctor::where('id', $id)->first();
+        if (!$doctor) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Doctor not found',
+                'data' => '',
+            ], 404);
+        }
 
         // Mengelola unggahan file
         if ($request->hasFile('image_url')) {
@@ -80,13 +95,12 @@ class DoctorController extends Controller
         // save
         $doctor->save();
 
-
         // Mengembalikan response JSON
         return response()->json([
             'success' => true,
             'message' => 'Doctor updated successfully.',
             'data' => $doctor,
-        ], 200);   
+        ], 200);
     }
 
     public function getDetailDoctor($id)
