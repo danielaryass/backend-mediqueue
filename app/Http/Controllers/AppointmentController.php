@@ -11,8 +11,37 @@ use Illuminate\Support\Facades\Gate;
 use Carbon\Carbon;
 
 
+
 class AppointmentController extends Controller
 {
+
+    public function getAllAppointment()
+    {
+        $user = auth()->user();
+        if (!$user || $user = null) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'unauthorized',
+                    ],
+                ],
+            ], 401);
+        }
+        if (Gate::denies('Akses Admin')) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'You dont have permission to this action',
+                    ],
+                ],
+            ], 403);
+        }
+        $appointment = Appointment::all();
+        return response()->json([
+            'message' => 'Success',
+            'data' => $appointment
+        ], 200);
+    }
     public function createAppointment(AppointmentCreateRequest $request)
     {
         $data = $request->validated();
@@ -31,5 +60,91 @@ class AppointmentController extends Controller
             'message' => 'Success',
             'data' => $appointment
         ], 201);
+    }
+
+    public function getAppointment(Request $request)
+    {
+        $user = auth()->user();
+        $appointment = Appointment::where('user_id', $user->id)->get();
+        return response()->json([
+            'message' => 'Success',
+            'data' => $appointment
+        ], 200);
+    }
+
+    public function getDetailAppointment($id)
+    {
+        $appointment = Appointment::where('id', $id)->first();
+        if(!$appointment){
+            return response()->json([
+                'message' => 'Appointment not found',
+            ], 404);
+        }
+        return response()->json([
+            'message' => 'Success',
+            'data' => $appointment
+        ], 200);
+    }
+
+    public function setStatusToMissing(Request $request, $id)
+    {
+        if (Gate::denies('Akses Admin')) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'You dont have permission to this action',
+                    ],
+                ],
+            ], 403);
+        }
+        $appointment = Appointment::find($id);
+        if(!$appointment){
+            return response()->json([
+                'message' => 'Appointment not found',
+            ], 404);
+        }
+        if ($appointment->status == 'Waiting') {
+            $appointment->status = 'Missing';
+            $appointment->save();
+            return response()->json([
+                'message' => 'Success',
+                'data' => $appointment
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Appointment is not Waiting',
+            ], 400);
+        }
+    }
+
+    public function setStatusToCompleted(Request $request, $id)
+    {
+        if (Gate::denies('Akses Admin')) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'You dont have permission to this action',
+                    ],
+                ],
+            ], 403);
+        }
+        $appointment = Appointment::find($id);
+        if(!$appointment){
+            return response()->json([
+                'message' => 'Appointment not found',
+            ], 404);
+        }
+        if ($appointment->status == 'Waiting' || $appointment->status == 'Missing') {
+            $appointment->status = 'Completed';
+            $appointment->save();
+            return response()->json([
+                'message' => 'Success',
+                'data' => $appointment
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Appointment is not Waiting or Missing',
+            ], 400);
+        }
     }
 }

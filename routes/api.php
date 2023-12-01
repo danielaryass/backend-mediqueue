@@ -43,4 +43,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/doctors/{id}', [DoctorController::class, 'editDoctor']);
     Route::get('/doctors/{id}', [DoctorController::class, 'getDetailDoctor']);
     Route::post('/appointments', [AppointmentController::class, 'createAppointment']);
+    Route::get('/appointments', [AppointmentController::class, 'getAppointment']);
+    Route::patch('/appointments/setmissing/{id}', [AppointmentController::class, 'setStatusToMissing']);
+    Route::patch('/appointments/setcompleted/{id}', [AppointmentController::class, 'setStatusToCompleted']);
+    Route::get('/appointments/{id}', [AppointmentController::class, 'getDetailAppointment']);
+    Route::get('/allappointments', [AppointmentController::class, 'getAllAppointment']);
+
 });
