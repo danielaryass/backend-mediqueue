@@ -14,10 +14,21 @@ use Illuminate\Support\Facades\Gate;
 
 class DoctorController extends Controller
 {
-    private function checkUserAuthorization()
+    public function index()
+    {
+
+        $doctor = Doctor::all();
+        return response()->json([
+            'success' => true,
+            'message' => 'List All Doctor',
+            'data' => $doctor,
+        ], 200);
+    }
+
+    public function getUserWithRoleDoctor()
     {
         $user = Auth::user();
-        if (!$user) {
+        if (!$user || $user = null) {
             return response()->json([
                 'errors' => [
                     'message' => [
@@ -35,21 +46,7 @@ class DoctorController extends Controller
                 ],
             ], 403);
         }
-        return $user;
-    }
-    public function index()
-    {
-
-        $doctor = Doctor::all();
-        return response()->json([
-            'success' => true,
-            'message' => 'List All Doctor',
-            'data' => $doctor,
-        ], 200);
-    }
-
-    public function getUserWithRoleDoctor()
-    {
+       
         $user = User::role('Doctor')->get();
         return response()->json([
             'success' => true,
@@ -60,20 +57,24 @@ class DoctorController extends Controller
 
     public function addDoctor(DoctorRequest $request)
     {
-        $user = $this->checkUserAuthorization();
-        if (!$user) {
-            return $user;
-        }
-
-        $request->validated();
-
-        // Membuat objek Doctor
-        if (User::where('id', $request->user_id)->doesntExist()) {
+        $user = Auth::user();
+        if (!$user || $user = null) {
             return response()->json([
-                'success' => false,
-                'message' => 'User not found',
-                'data' => '',
-            ], 404);
+                'errors' => [
+                    'message' => [
+                        'unauthorized',
+                    ],
+                ],
+            ], 401);
+        }
+        if (Gate::denies('Akses Admin')) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'You dont have permission to this action',
+                    ],
+                ],
+            ], 403);
         }
         $doctor = new Doctor;
         $doctor->name = $request->name;
@@ -108,18 +109,24 @@ class DoctorController extends Controller
 
     public function editDoctor(Request $request, $id)
     {
-        $user = $this->checkUserAuthorization();
-        if (!$user) {
-            return $user;
-        }
-        // $doctor = Doctor::findOrFail($id);
-        $doctor = Doctor::where('id', $id)->first();
-        if (!$doctor) {
+        $user = Auth::user();
+        if (!$user || $user = null) {
             return response()->json([
-                'success' => false,
-                'message' => 'Doctor not found',
-                'data' => '',
-            ], 404);
+                'errors' => [
+                    'message' => [
+                        'unauthorized',
+                    ],
+                ],
+            ], 401);
+        }
+        if (Gate::denies('Akses Admin')) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'You dont have permission to this action',
+                    ],
+                ],
+            ], 403);
         }
 
         // Mengelola unggahan file
