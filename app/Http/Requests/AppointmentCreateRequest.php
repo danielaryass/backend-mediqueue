@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 
 class AppointmentCreateRequest extends FormRequest
 {
@@ -22,11 +25,11 @@ class AppointmentCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patient_name' => ['required'],
+            'patient_name' => ['required', 'string', 'max:255'],
+            'patient_phone_number' => ['required', 'string', 'max:255'],
+            'patient_address' => ['required', 'string', 'max:255'],
             'appointment_date' => ['required'],
-            'appointment_time' => ['required'],
             'type_appointment' => ['required', 'in:BPJS,Umum,Mandiri,Asuransi'],
-            'user_id' => ['required'],
             'doctor_id' => ['required']
         ];
     }

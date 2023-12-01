@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +32,7 @@ Route::get('/doctors', [DoctorController::class, 'index']);
 //     return $request->user();
 // });
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'get']);
     Route::post('/adduser', [UserController::class, 'addUser']);
     Route::patch('/users', [UserController::class, 'update']);
@@ -41,4 +42,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/doctors/user', [DoctorController::class, 'getUserWithRoleDoctor']);
     Route::patch('/doctors/{id}', [DoctorController::class, 'editDoctor']);
     Route::get('/doctors/{id}', [DoctorController::class, 'getDetailDoctor']);
+    Route::post('/appointments', [AppointmentController::class, 'createAppointment']);
 });

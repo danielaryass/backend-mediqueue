@@ -6,11 +6,10 @@ use App\Http\Requests\DoctorRequest;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
-
+use Illuminate\Support\Facades\Storage;
 
 class DoctorController extends Controller
 {
@@ -46,7 +45,7 @@ class DoctorController extends Controller
                 ],
             ], 403);
         }
-       
+
         $user = User::role('Doctor')->get();
         return response()->json([
             'success' => true,
@@ -109,6 +108,15 @@ class DoctorController extends Controller
 
     public function editDoctor(Request $request, $id)
     {
+        $doctor = Doctor::find($id);
+        if (!$doctor) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Doctor not found',
+                'data' => '',
+            ],
+                404);
+        }
         $user = Auth::user();
         if (!$user || $user = null) {
             return response()->json([
@@ -129,6 +137,13 @@ class DoctorController extends Controller
             ], 403);
         }
 
+        
+       
+        // apabila input kosong, maka tetap menggunakan data yang lama
+        $doctor->name = $request->name ?? $doctor->name;
+        $doctor->user_id = $request->user_id ?? $doctor->user_id;
+        $doctor->start_hour = $request->start_hour ?? $doctor->start_hour;
+        $doctor->end_hour = $request->end_hour ?? $doctor->end_hour;
         // Mengelola unggahan file
         if ($request->hasFile('image_url')) {
             // Menghapus file lama
@@ -138,13 +153,6 @@ class DoctorController extends Controller
             $imagePath = $request->file('image_url')->store('assets/file-doctor', 'public');
             $doctor->image_url = $imagePath;
         }
-
-        // apabila input kosong, maka tetap menggunakan data yang lama
-        $doctor->name = $request->name ?? $doctor->name;
-        $doctor->user_id = $request->user_id ?? $doctor->user_id;
-        $doctor->start_hour = $request->start_hour ?? $doctor->start_hour;
-        $doctor->end_hour = $request->end_hour ?? $doctor->end_hour;
-        // save
         $doctor->save();
 
         // Mengembalikan response JSON

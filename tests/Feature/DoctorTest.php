@@ -69,7 +69,7 @@ class DoctorTest extends TestCase
     {
         $token = $this->login();
         $doctor = $this->createDoctor($token);
-        $this->get('api/doctors/' . $doctor->id, [
+        $this->get('/api/doctors/' . $doctor->id, [
             'Authorization' => 'Bearer ' . $token,
         ])->assertStatus(200)->assertJson([
             'success' => true,
@@ -81,7 +81,7 @@ class DoctorTest extends TestCase
     {
         $token = $this->login();
         $doctor = $this->createDoctor($token);
-        $this->patch('api/doctors/' . $doctor->id, [
+        $this->patch('/api/doctors/' . $doctor->id, [
             'Authorization' => 'Bearer ' . $token,
             'name' => 'Daniel Arya',
             'user_id' => $doctor->user_id,
@@ -103,7 +103,7 @@ class DoctorTest extends TestCase
     {
         $token = $this->login();
         $doctor = $this->createDoctor($token);
-        $this->patch('api/doctors/100', [
+        $this->patch('/api/doctors/100', [
             'Authorization' => 'Bearer ' . $token,
             'name' => 'Daniel Arya',
             'user_id' => $doctor->user_id,
