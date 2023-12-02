@@ -19,14 +19,7 @@ use App\Http\Controllers\AppointmentController;
 
 Route::post('/users',[UserController::class, 'register']);
 Route::post('/users/login',[UserController::class, 'login']);
-Route::get('/unauthorized', function(){
-    return response()->json([
-        'errors' => [
-                    'message' => [
-                        'unauthorized'
-                    ]
-    ]], 401);
-})->name('unauthorized');
+
 Route::get('/doctors', [DoctorController::class, 'index']);
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
