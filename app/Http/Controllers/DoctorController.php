@@ -46,11 +46,23 @@ class DoctorController extends Controller
             ], 403);
         }
 
-        $user = User::role('Doctor')->get();
+        // $user = User::role('Doctor')->get();
+        // paginate(10);
+        $user = User::role('Doctor')->paginate(10);
+
+
         return response()->json([
             'success' => true,
             'message' => 'List All User With Role Doctor',
             'data' => $user,
+            'meta' => [
+                'total' => $user->total(),
+                'per_page' => $user->perPage(),
+                'current_page' => $user->currentPage(),
+                'last_page' => $user->lastPage(),
+                'from' => $user->firstItem(),
+                'to' => $user->lastItem(),
+            ],
         ], 200);
     }
 

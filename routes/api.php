@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\AppointmentController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,14 +17,10 @@ use App\Http\Controllers\AppointmentController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 Route::post('/users',[UserController::class, 'register']);
 Route::post('/users/login',[UserController::class, 'login']);
 
 Route::get('/doctors', [DoctorController::class, 'index']);
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'get']);
@@ -41,5 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/appointments/setcompleted/{id}', [AppointmentController::class, 'setStatusToCompleted']);
     Route::get('/appointments/{id}', [AppointmentController::class, 'getDetailAppointment']);
     Route::get('/allappointments', [AppointmentController::class, 'getAllAppointment']);
-
+    
+    
 });
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
