@@ -54,7 +54,7 @@ class DoctorController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'List All User With Role Doctor',
-            'data' => $user,
+            'data' => $user,    
             'meta' => [
                 'total' => $user->total(),
                 'per_page' => $user->perPage(),
