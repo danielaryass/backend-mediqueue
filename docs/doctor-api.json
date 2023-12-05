@@ -1,0 +1,287 @@
+{
+  "openapi":"3.0.2",
+  "info": {
+    "title":"API Doctor",
+    "version":"1.0"
+  },
+  "servers": [
+    {"url":"http://localhost:8000"}
+  ],
+  "paths": {
+    "/api/doctors" : {
+      "get": {
+        "description": "Get all doctors",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                      "data": {
+                          "type": "array",
+                          "items": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                      "type": "integer"
+                                  },
+                                  "name": {
+                                      "type": "string"
+                                  },
+                                  "start_hour": {
+                                      "type": "string"
+                                  },
+                                  "end_hour": {
+                                      "type": "string"
+                                  },
+                                  "image_url": {
+                                      "type": "string"
+                                  },
+                                  "user_id": {
+                                      "type": "integer"
+                                  }
+
+                              }
+                          }
+                      },
+                      "success": {
+                          "type": "boolean"
+                      },
+                      "message": {
+                          "type": "string"
+                      }
+                  }
+              
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create a doctor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "start_hour": {
+                        "type": "string"
+                    },
+                    "end_hour": {
+                        "type": "string"
+                    },
+                    "image_url": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                      "data": {
+                          "type": "object",
+                          "properties": {
+                              "id": {
+                                  "type": "integer"
+                              },
+                              "name": {
+                                  "type": "string"
+                              },
+                              "start_hour": {
+                                  "type": "string"
+                              },
+                              "end_hour": {
+                                  "type": "string"
+                              },
+                              "image_url": {
+                                  "type": "string"
+                              },
+                              "user_id": {
+                                  "type": "integer"
+                              }
+
+                          }
+                      },
+                      "success": {
+                          "type": "boolean"
+                      },
+                      "message": {
+                          "type": "string"
+                      }
+                  }
+              
+                }
+              }
+            }
+          }
+        }
+
+        
+      }
+    },
+    "/api/doctors/{id}":{
+      "get": {
+        "description": "Get a doctor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Doctor id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                      "data": {
+                          "type": "object",
+                          "properties": {
+                              "id": {
+                                  "type": "integer"
+                              },
+                              "name": {
+                                  "type": "string"
+                              },
+                              "start_hour": {
+                                  "type": "string"
+                              },
+                              "end_hour": {
+                                  "type": "string"
+                              },
+                              "image_url": {
+                                  "type": "string"
+                              },
+                              "user_id": {
+                                  "type": "integer"
+                              }
+
+                          }
+                      },
+                      "success": {
+                          "type": "boolean"
+                      },
+                      "message": {
+                          "type": "string"
+                      }
+                  }
+              
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "description": "Update a doctor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Doctor id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "start_hour": {
+                        "type": "string"
+                    },
+                    "end_hour": {
+                        "type": "string"
+                    },
+                    "image_url": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                      "data": {
+                          "type": "object",
+                          "properties": {
+                              "id": {
+                                  "type": "integer"
+                              },
+                              "name": {
+                                  "type": "string"
+                              },
+                              "start_hour": {
+                                  "type": "string"
+                              },
+                              "end_hour": {
+                                  "type": "string"
+                              },
+                              "image_url": {
+                                  "type": "string"
+                              },
+                              "user_id": {
+                                  "type": "integer"
+                              }
+
+                          }
+                      },
+                      "success": {
+                          "type": "boolean"
+                      },
+                      "message": {
+                          "type": "string"
+                      }
+                  }
+              
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
