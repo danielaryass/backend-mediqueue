@@ -65,7 +65,9 @@ class AppointmentController extends Controller
         }
 
         // Use the paginate() method to get a paginated result
-        $appointments = Appointment::paginate(10); // Adjust the number per page as needed
+        // where date is now
+        $appointments = Appointment::whereDate('appointment_date', Carbon::today())->paginate(10); // Adjust the number per page as needed
+        // $appointments = Appointment::paginate(10); // Adjust the number per page as needed
 
         // Customize the response structure to include pagination information
         return response()->json([

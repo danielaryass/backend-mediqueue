@@ -282,6 +282,63 @@
           }
         }
       }
+    },
+    "/api/doctors/user": {
+      "get":{
+        "description": "Get All User where the role is doctor",
+        "responses": {
+          "200" : {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                      "data": {
+                          "type": "array",
+                          "items": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                      "type": "integer"
+                                  },
+                                  "name": {
+                                      "type": "string"
+                                  },
+                                  "email": {
+                                      "type": "string"
+                                  },
+                                  "role": {
+                                      "type": "string"
+                                  },
+                                  "image_url": {
+                                      "type": "string"
+                                  },
+                                  "created_at": {
+                                      "type": "string"
+                                  },
+                                  "updated_at": {
+                                      "type": "string"
+                                  }
+
+                              }
+                          }
+                      },
+                      "success": {
+                          "type": "boolean"
+                      },
+                      "message": {
+                          "type": "string"
+                      }
+                  }
+              
+                }
+              }
+            }
+          }
+        }
+      }
+      
     }
   }
 }

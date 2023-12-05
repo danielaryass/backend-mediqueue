@@ -93,11 +93,6 @@ class DoctorController extends Controller
         $doctor->start_hour = $request->start_hour;
         $doctor->end_hour = $request->end_hour;
 
-        // Membuat direktori jika tidak ada
-        $path = public_path('app/public/assets/photo-doctor');
-        if (!File::isDirectory($path)) {
-            $response = Storage::makeDirectory('public/assets/photo-doctor');
-        }
 
         // Mengelola unggahan file
         if ($request->hasFile('image_url')) {
@@ -106,7 +101,7 @@ class DoctorController extends Controller
         } else {
             $doctor->image_url = '';
         }
-
+        // dd($doctor->image_url);
         // Menyimpan data Doctor
         $doctor->save();
 

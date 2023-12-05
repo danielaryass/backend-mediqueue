@@ -1,0 +1,170 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title":"Appointment API",
+      "version":"1.0"
+    },
+    "servers": [
+      {"url":"http://localhost:8000"}
+    ],
+    "paths": {
+        "/api/appointments" :{
+            "get":{
+                "description": "Get All Appointment filter by user login",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id":{
+                                                        "type": "integer"
+                                                    },
+                                                    "appointment_code":{
+                                                        "type": "string"
+                                                    },
+                                                    "appointment_date":{
+                                                        "type": "string"
+                                                    },
+                                                    "appointment_time":{
+                                                        "type": "string"
+                                                    },
+                                                    "patient_name":{
+                                                        "type": "string"
+                                                    },
+                                                    "patient_phone_number":{
+                                                        "type": "string"
+                                                    },
+                                                    "patient_address":{
+                                                        "type": "string"
+                                                    },
+                                                    "status":{
+                                                        "type": "string"
+                                                    },
+                                                    "type_of_appointment":{
+                                                        "type": "string"
+                                                    },
+                                                    "no_queue":{
+                                                        "type": "integer"
+                                                    },
+                                                    "user_id":{
+                                                        "type": "integer"
+                                                    },
+                                                    "doctor_id":{
+                                                        "type": "integer"
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Appointment",
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "appointment_date":{
+                                        "type": "string"
+                                    },
+                                    "patient_name":{
+                                        "type": "string"
+                                    },
+                                    "patient_phone_number":{
+                                        "type": "string"
+                                    },
+                                    "patient_address":{
+                                        "type": "string"
+                                    },
+                                    "type_of_appointment":{
+                                        "type": "string"
+                                    },
+                                    "doctor_id":{
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id":{
+                                                    "type": "integer"
+                                                },
+                                                "appointment_code":{
+                                                    "type": "string"
+                                                },
+                                                "appointment_date":{
+                                                    "type": "string"
+                                                },
+                                                "appointment_time":{
+                                                    "type": "string"
+                                                },
+                                                "patient_name":{
+                                                    "type": "string"
+                                                },
+                                                "patient_phone_number":{
+                                                    "type": "string"
+                                                },
+                                                "patient_address":{
+                                                    "type": "string"
+                                                },
+                                                "status":{
+                                                    "type": "string"
+                                                },
+                                                "type_of_appointment":{
+                                                    "type": "string"
+                                                },
+                                                "no_queue":{
+                                                    "type": "integer"
+                                                },
+                                                "user_id":{
+                                                    "type": "integer"
+                                                },
+                                                "doctor_id":{
+                                                    "type": "integer"
+                                                }
+                                                
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+  }
